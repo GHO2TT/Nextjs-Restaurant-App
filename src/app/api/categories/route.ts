@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/connect";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 // THIS IS HOW TO MAKE THE CRUD RESPONSES
 // FETCH ALL CATEGORIES
 export const GET = async () => {

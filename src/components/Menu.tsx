@@ -37,7 +37,7 @@ const Menu = () => {
           onClick={() => setOpen(false)}
         />
       )} */}
-      
+
       {/* SHORTCUT */}
       <Image
         src={open ? "/close.png" : "/open.png"}
@@ -54,17 +54,6 @@ const Menu = () => {
               {item.title}
             </Link>
           ))}
-
-          {/* LONG WAY */}
-          {/* {!user ? (
-            <Link href="/login" onClick={() => setOpen(false)}>
-              Login
-            </Link>
-          ) : (
-            <Link href="/orders" onClick={() => setOpen(false)}>
-              Orders
-            </Link>
-          )} */}
 
           {/* SHORTCUT */}
           <Link

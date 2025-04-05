@@ -39,9 +39,11 @@ const CountDown = () => {
       clearInterval(timer);
     };
   });
+
+  const messageForDev = "<= Timer is the cause of the next.js error";
   return (
     <span className="font-bold text-5xl text-yellow-300">
-      {d}:{h}:{m}:{s}
+      {d}:{h}:{m}:{s} <p>{messageForDev}</p>
     </span>
   );
 };
