@@ -1,0 +1,40 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+
+const DeleteButton = ({ id }: { id: string }) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const isAdmin = session?.user?.isAdmin;
+  console.log(id);
+
+  if (!isAdmin) return null;
+
+  async function handleClick() {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.status === 200) {
+      router.push("/menu");
+      toast.success(`Product id:${id}  deleted successfully`);
+    } else {
+      const data = await res.json();
+      toast.error(data.message);
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="bg-red-400 p-2 rounded-full absolute top-4 right-4 text-amber-50"
+    >
+      <Image src="/trash.png" alt="" width={20} height={20} />
+    </button>
+  );
+};
+
+export default DeleteButton;

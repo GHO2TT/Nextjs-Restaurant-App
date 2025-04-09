@@ -1,49 +1,41 @@
-// WITH A LIBRARY
-// "use client"
-// import React from 'react'
-// import Countdown from 'react-countdown'
-
-// const endingDate = new Date("2023-07-25")
-
-// const CountDown = () => {
-//   return (
-//     <Countdown className='font-bold text-5xl text-yellow-300' date={endingDate}/>
-//   )
-// }
-
-// export default CountDown
-
-// WITHOUT A LIBRARY
 "use client";
 import React, { useState, useEffect } from "react";
 
 const CountDown = () => {
-  let difference = +new Date(`10/10/2025`) - +new Date();
-  const [delay, setDelay] = useState(difference);
-
-  const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-  const h = Math.floor((difference / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((difference / 1000 / 60) % 60);
-  const s = Math.floor((difference / 1000) % 60);
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
 
   useEffect(() => {
+    const calculateTimeLeft = () => {
+      const difference = +new Date("2025-10-10") - +new Date();
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    };
+
+    // Set initial time left
+    setTimeLeft(calculateTimeLeft());
+
     const timer = setInterval(() => {
-      setDelay(delay - 1);
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    if (delay === 0) {
-      clearInterval(timer);
-    }
+    return () => clearInterval(timer);
+  }, []);
 
-    return () => {
-      clearInterval(timer);
-    };
-  });
+  if (!timeLeft) return null; // Or a loading spinner
 
-  const messageForDev = "<= Timer is the cause of the next.js error";
   return (
-    <span className="font-bold text-5xl text-yellow-300">
-      {d}:{h}:{m}:{s} <p>{messageForDev}</p>
+    <span className="font-bold text-5xl text-yellow-300 text-center">
+      {timeLeft.days}:{timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
+      <p className="text-xs">Client-only countdown</p>
     </span>
   );
 };

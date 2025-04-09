@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CartIcon from "./CartIcon";
+import { useSession } from "next-auth/react";
 
 const links = [
   { id: 1, title: "Homepage", url: "/" },
@@ -14,9 +15,9 @@ const links = [
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
-
+  const { data, status } = useSession();
   // TEMPORARY
-  const user = false;
+  const user = status === "authenticated" ? data?.user : null;
   return (
     <div>
       {/* LONG WAY */}

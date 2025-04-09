@@ -30,7 +30,9 @@ const Navbar = () => {
           <span>123 456 78</span>
         </div>
         <UserLinks />
-        <CartIcon />
+        <Link href="/cart">
+          <CartIcon />
+        </Link>
       </div>
     </div>
   );
