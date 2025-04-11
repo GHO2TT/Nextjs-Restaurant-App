@@ -47,6 +47,7 @@ export type OrderType = {
   createdAt: number;
   products: cartItemType[];
   price: number;
+  address: string;
   status: string;
 }[];
 

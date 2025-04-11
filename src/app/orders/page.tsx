@@ -1,4 +1,5 @@
 "use client";
+import DeleteButton from "@/components/DeleteButton";
 import { OrderType } from "@/Types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -43,6 +44,21 @@ const OrdersPage = () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
   });
+  const deleteOrder = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      return await fetch(`http://localhost:3000/api/orders/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+    },
+    onSuccess: () => {
+      toast.success("The Orders has been Deleted");
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+    },
+  });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>, id: string) {
     e.preventDefault();
@@ -63,6 +79,12 @@ const OrdersPage = () => {
 
   // console.log(data);
 
+  function handleDelete(id: string) {
+    // console.log(id);
+
+    deleteOrder.mutate({ id, status: "deleted" });
+  }
+
   return (
     <div className="p-4 lg:px-20 xl:px-40">
       <table className="w-full border-separate border-spacing-3">
@@ -73,6 +95,8 @@ const OrdersPage = () => {
             <th>Price</th>
             <th className="hidden md:block">Products</th>
             <th>Status</th>
+            <th className="hidden md:block">Address</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -86,7 +110,7 @@ const OrdersPage = () => {
               }
             >
               <td className="hidden md:block py-6 px-1">{item.id}</td>
-              <td className="py-6 px-1">
+              <td className="py-6 px-3">
                 {item.createdAt.toString().slice(0, 10)}
               </td>
               <td className="py-6 px-1">{item.price.toFixed(2)}</td>
@@ -98,6 +122,7 @@ const OrdersPage = () => {
                   return <span key={key}>{item.title}, </span>;
                 })}
               </td>
+
               <td className="py-6 px-1">
                 {isAdmin ? (
                   <form
@@ -117,6 +142,15 @@ const OrdersPage = () => {
                 ) : (
                   item.status
                 )}
+              </td>
+              <td className="hidden md:block py-6 px-[80px]">{item.address}</td>
+              <td className="py-6 px-1">
+                <button
+                  onClick={handleDelete.bind(null, item.id)}
+                  className="bg-red-400 p-2 rounded-full text-amber-50"
+                >
+                  <Image src="/trash.png" alt="" width={20} height={20} />
+                </button>
               </td>
             </tr>
           ))}

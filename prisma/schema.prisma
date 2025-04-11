@@ -127,6 +127,7 @@ model Order{
   price Float
   products Json
   status String
+  address String @default("")
   intent_id String? @unique
   userEmail String
   user User @relation(fields: [userEmail], references: [email])

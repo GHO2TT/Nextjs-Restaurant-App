@@ -47,7 +47,7 @@ const LoginPage = () => {
             />
             <span>Sign in with Google</span>
           </button>
-          <button className="flex gap-4 p-4 ring-1 ring-blue-100 rounded-md">
+          {/* <button className="flex gap-4 p-4 ring-1 ring-blue-100 rounded-md">
             <Image
               src="/facebook.png"
               alt=""
@@ -56,7 +56,7 @@ const LoginPage = () => {
               className="object-contain"
             />
             <span>Sign in with Facebook</span>
-          </button>
+          </button> */}
           <p className="text-sm">
             Have a problem?
             <Link className="underline" href="/">

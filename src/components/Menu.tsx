@@ -16,6 +16,8 @@ const links = [
 const Menu = () => {
   const [open, setOpen] = useState(false);
   const { data, status } = useSession();
+
+  const admin = data?.user.isAdmin;
   // TEMPORARY
   const user = status === "authenticated" ? data?.user : null;
   return (
@@ -57,6 +59,11 @@ const Menu = () => {
           ))}
 
           {/* SHORTCUT */}
+          {admin && (
+            <Link href="/add" onClick={() => setOpen(false)}>
+              Add Product
+            </Link>
+          )}
           <Link
             href={user ? "/orders" : "login"}
             onClick={() => setOpen(false)}

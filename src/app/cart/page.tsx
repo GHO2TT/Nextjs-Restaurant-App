@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as cartActions, RootState } from "@/utils/store";
 import { CartProduct } from "@/Types/types";
@@ -10,7 +10,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const CartPage = () => {
+  const [address, setAddress] = useState({
+    home: "",
+    cityandstate: "",
+    phonenumber: 0,
+  } as any);
+
   const cartProducts = useSelector((state: RootState) => state.cart.products);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -29,11 +36,35 @@ const CartPage = () => {
   const email = data?.user.email;
   console.log(data?.user.email);
 
+  function handleAddress(identifier: string, e: any) {
+    const value = e.target.value;
+    console.log(value);
+
+    setAddress((preValue: any) => ({ ...preValue, [identifier]: value }));
+  }
+  console.log(address);
+
   const handleCheckout = async () => {
+    if (
+      address.home.trim() === "" ||
+      address.cityandstate.trim === "" ||
+      address.phonenumber === 0
+    ) {
+      toast.info("Please enter your address and phone number");
+      return;
+    }
+
+    if (!cartProducts || cartProducts.length === 0) {
+      toast.info("Please add products to the cart");
+      return;
+    }
     if (status === "unauthenticated") {
       router.push("/login");
       return;
     }
+
+    const fulladdress = `${address.home}, ${address.cityandstate}, Phone Number ${address.phonenumber}`;
+    console.log(fulladdress);
 
     try {
       const res = await fetch(`/api/orders`, {
@@ -44,6 +75,7 @@ const CartPage = () => {
         body: JSON.stringify({
           products: cartProducts,
           userEmail: email,
+          address: fulladdress,
           status: "Pending Payment",
           price: TOTAL_INCL_VAT,
         }), // Send your cart to the backend
@@ -118,7 +150,7 @@ const CartPage = () => {
       </div>
 
       {/* PAYMENT CONTAINER */}
-      <div className="h-1/2 p-4 bg-fuchsia-50 flex flex-col gap-4 justify-center lg:h-full lg:w-1/3 2xl:w-1/2 lg:px-20 xl:px-40 2xl:text-xl 2xl:gap-6">
+      <div className="h-1/2 p-4 bg-fuchsia-50 flex flex-col gap-4 justify-center lg:h-full lg:w-1/3 2xl:w-1/2 lg:px-10 xl:px-20 2xl:text-xl 2xl:gap-6 overflow-auto">
         <div className="flex justify-between">
           <span>Subtotal ({quantity} items)</span>
           <span>${subTotal.toFixed(2)}</span>
@@ -140,20 +172,41 @@ const CartPage = () => {
           onSubmit={(e) => {
             e.preventDefault();
           }}
-          className="w-full flex justify-between gap-4 mt-4"
+          className="w-full "
         >
-          <button
-            onClick={handleCheckout}
-            className="bg-red-500 text-white p-3 rounded-md w-full self-end"
-          >
-            CHECKOUT using Stripe
-          </button>
-          <button
-            onClick={handleCheckout}
-            className="bg-red-500 text-white p-3 rounded-md w-full self-end"
-          >
-            CHECKOUT using PayStack
-          </button>
+          <input
+            type="text"
+            placeholder="Home Address"
+            className="p-3 w-full rounded-2xl border-amber-400 border-2 mb-1"
+            onChange={(e) => handleAddress("home", e)}
+          />
+          <input
+            type="text"
+            placeholder="City and State"
+            className="p-3 w-full rounded-2xl border-amber-400 border-2 mb-1"
+            onChange={(e) => handleAddress("cityandstate", e)}
+          />
+          <input
+            type="text"
+            placeholder="Phone Number"
+            className="p-3 w-full rounded-2xl border-amber-400 border-2 mb-1"
+            onChange={(e) => handleAddress("phonenumber", e)}
+          />
+
+          <div className="flex justify-between gap-4 mt-4  ">
+            <button
+              onClick={handleCheckout}
+              className="bg-red-500 text-white p-3 rounded-md w-full self-end"
+            >
+              CHECKOUT using Stripe
+            </button>
+            {/* <button
+              onClick={handleCheckout}
+              className="bg-red-500 text-white p-3 rounded-md w-full self-end"
+            >
+              CHECKOUT using PayStack
+            </button> */}
+          </div>
         </form>
       </div>
     </div>

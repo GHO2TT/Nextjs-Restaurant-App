@@ -26,8 +26,12 @@ const Price = ({ product }: { product: ProductType[number] }) => {
   }, [quantity, selected, product.price]);
 
   function addToCart() {
-    const payloadProduct = { ...product, quantity, selectedTitle };
-    // console.log(payloadProduct);
+    const payloadProduct = {
+      ...product,
+      quantity,
+      price: total,
+      selectedTitle,
+    };
 
     dispatch(cartActions.add({ product: payloadProduct }));
     toast.success(`+ ${quantity} ${product.title} added to cart`);
