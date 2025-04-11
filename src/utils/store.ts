@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { CartProduct, CartState } from "@/Types/types";
+import { CartState } from "@/Types/types";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { combineReducers } from "redux";
@@ -14,7 +14,7 @@ const cartSlice = createSlice({
   reducers: {
     add(state, action: { payload: { product: any } }) {
       const { id, quantity } = action.payload.product;
-      const cartProducts = state.products;
+      // const cartProducts = state.products;
 
       const existingProductIndex = state.products.findIndex(
         (item) => item.id === id
@@ -29,7 +29,7 @@ const cartSlice = createSlice({
     },
 
     remove(state, action: { payload: { id: string } }) {
-      const cartProducts = state.products;
+      // const cartProducts = state.products;
       const { id } = action.payload;
 
       state.products = state.products.filter((item) => item.id !== id);

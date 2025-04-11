@@ -56,11 +56,9 @@ export async function POST(req: Request) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error("Payment verification error:", error);
-    return NextResponse.json(
-      { message: error.message || "Payment verification failed" },
-      { status: 500 }
-    );
+  } catch (err) {
+    const error = err as Error;
+    console.error("Stripe checkout error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

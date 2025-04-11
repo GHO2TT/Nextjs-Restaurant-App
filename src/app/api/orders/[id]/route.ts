@@ -37,7 +37,7 @@ export const DELETE = async (
 
   if (session?.user.isAdmin) {
     try {
-      const order = await prisma.order.delete({
+      await prisma.order.delete({
         where: {
           id: id,
         },
@@ -46,7 +46,7 @@ export const DELETE = async (
     } catch (error) {
       // console.log(error);
       return NextResponse.json(
-        { message: "Something went wrong! || Not found!!" },
+        { message: `Something went wrong! || ${error}` },
         { status: 500 }
       );
     }

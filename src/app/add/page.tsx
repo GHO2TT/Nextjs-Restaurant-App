@@ -31,7 +31,7 @@ const AddProductpage = () => {
     } else {
       toast.success("Welcome admin");
     }
-  }, [isAdmin, status]);
+  }, [isAdmin, status, router]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -23,7 +23,7 @@ const Price = ({ product }: { product: ProductType[number] }) => {
           ? product.price + options[selected].additionalPrice
           : product.price)
     );
-  }, [quantity, selected, product.price]);
+  }, [quantity, selected, product.price, options]);
 
   function addToCart() {
     const payloadProduct = {
@@ -94,5 +94,3 @@ const Price = ({ product }: { product: ProductType[number] }) => {
 };
 
 export default Price;
-
-// [{"title": "Large", "additionalPrice": 200}, {"title": "Medium", "additionalPrice": 100}, {"title": "Small", "additionalPrice": 50}]

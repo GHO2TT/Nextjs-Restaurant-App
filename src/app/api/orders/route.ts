@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // THIS IS HOW TO MAKE THE CRUD RESPONSES
 // FETCH ALL Orders
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   const session = await getAuthSession();
   if (!session || !session.user?.email) {
     return new NextResponse(

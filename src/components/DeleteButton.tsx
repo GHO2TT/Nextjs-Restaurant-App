@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const DeleteButton = ({ id }: { id: string }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const isAdmin = session?.user?.isAdmin;
   console.log(id);

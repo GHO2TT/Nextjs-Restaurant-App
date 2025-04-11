@@ -9,12 +9,18 @@ import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+type Address = {
+  home: string;
+  cityandstate: string;
+  phonenumber: number;
+};
+
 const CartPage = () => {
-  const [address, setAddress] = useState({
+  const [address, setAddress] = useState<Address>({
     home: "",
     cityandstate: "",
     phonenumber: 0,
-  } as any);
+  });
 
   const cartProducts = useSelector((state: RootState) => state.cart.products);
 
@@ -36,7 +42,10 @@ const CartPage = () => {
   const email = data?.user.email;
   console.log(data?.user.email);
 
-  function handleAddress(identifier: string, e: any) {
+  function handleAddress(
+    identifier: keyof Address,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
     const value = e.target.value;
     console.log(value);
 
@@ -47,7 +56,7 @@ const CartPage = () => {
   const handleCheckout = async () => {
     if (
       address.home.trim() === "" ||
-      address.cityandstate.trim === "" ||
+      address.cityandstate.trim() === "" ||
       address.phonenumber === 0
     ) {
       toast.info("Please enter your address and phone number");
@@ -124,7 +133,7 @@ const CartPage = () => {
     <div className="h-full md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
       {/* PRODUCTS CONTAINER */}
       <div className="h-1/2 flex flex-col justify-around p-5 overflow-scroll lg:h-full lg:w-2/3 2xl:w-1/2 lg:px-20 xl:px-40 overflow-x-hidden">
-        {cartProducts.map((item: CartProduct, index: number) => (
+        {cartProducts.map((item: CartProduct) => (
           <div key={item.id} className="flex items-center justify-between mb-4">
             {item.img && (
               <Image src={item.img} alt={item.title} width={100} height={100} />

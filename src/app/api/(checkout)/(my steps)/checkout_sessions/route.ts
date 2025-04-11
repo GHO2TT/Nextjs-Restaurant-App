@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { newStripe as stripe } from "@/utils/stripe";
-import { prisma } from "@/utils/connect";
+import { CartProduct } from "@/Types/types";
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     if (!products || products.length === 0) {
       return NextResponse.json({ error: "No products found" }, { status: 400 });
     }
-    const line_items = products.map((product: any) => ({
+    const line_items = (products as CartProduct[]).map((product) => ({
       price_data: {
         currency: "usd",
         product_data: {
@@ -39,11 +39,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url }, { status: 200 });
-  } catch (err: any) {
-    console.error("Stripe checkout error:", err);
-    return NextResponse.json(
-      { error: err.message },
-      { status: err.statusCode || 500 }
-    );
+  } catch (err) {
+    const error = err as Error;
+    console.error("Stripe checkout error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

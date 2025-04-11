@@ -1,5 +1,5 @@
 "use client";
-import DeleteButton from "@/components/DeleteButton";
+
 import { OrderType } from "@/Types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -23,7 +23,7 @@ const OrdersPage = () => {
     router.push("login");
   }
 
-  const { isLoading, isPending, error, data } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["orders"],
     queryFn: () => fetch("/api/orders").then((res) => res.json()),
   });
@@ -114,7 +114,7 @@ const OrdersPage = () => {
               </td>
               <td className="py-6 px-1">{item.price.toFixed(2)}</td>
               <td className="hidden md:block py-6 px-1">
-                {item.products.map((item, inde) => {
+                {item.products.map((item) => {
                   const key = item.title + Math.random();
                   // console.log(key);
 
