@@ -5,7 +5,10 @@ import Link from "next/link";
 import React from "react";
 
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/products", {
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "http://localhost:3000"; // Fallback for local development
+  const res = await fetch(`${baseUrl}/api/products`, {
     cache: "no-store",
   });
   if (!res.ok) {

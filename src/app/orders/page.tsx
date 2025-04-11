@@ -25,13 +25,12 @@ const OrdersPage = () => {
 
   const { isLoading, isPending, error, data } = useQuery({
     queryKey: ["orders"],
-    queryFn: () =>
-      fetch("http://localhost:3000/api/orders").then((res) => res.json()),
+    queryFn: () => fetch("/api/orders").then((res) => res.json()),
   });
 
   const mutation = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      return await fetch(`http://localhost:3000/api/orders/${id}`, {
+      return await fetch(`/api/orders/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +45,7 @@ const OrdersPage = () => {
   });
   const deleteOrder = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      return await fetch(`http://localhost:3000/api/orders/${id}`, {
+      return await fetch(`/api/orders/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +135,8 @@ const OrdersPage = () => {
                       className="p-2 ring-1 ring-red-100 rounded-md"
                     />
                     <button className="bg-red-500 p-2 rounded-[20px]">
-                      <Image src="/edit.png" alt="" width={20} height={20} />
+                      edit
+                      {/* <Image src="/edit.png" alt="" width={20} height={20} /> */}
                     </button>
                   </form>
                 ) : (

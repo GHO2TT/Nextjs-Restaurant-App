@@ -14,7 +14,7 @@ const DeleteButton = ({ id }: { id: string }) => {
   if (!isAdmin) return null;
 
   async function handleClick() {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const res = await fetch(`/api/products/${id}`, {
       method: "DELETE",
     });
 
@@ -56,7 +56,7 @@ export default DeleteButton;
 //   if (!isAdmin) return null;
 
 //   async function handleClick() {
-//     const res = await fetch(`http://localhost:3000/api/${route}/${id}`, {
+//     const res = await fetch(`/api/${route}/${id}`, {
 //       method: "DELETE",
 //     });
 

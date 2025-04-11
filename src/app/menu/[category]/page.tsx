@@ -9,12 +9,12 @@ type Props = {
 };
 
 const getData = async (category: string) => {
-  const res = await fetch(
-    `http://localhost:3000/api/products?cat=${category}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "http://localhost:3000"; // Fallback for local
+  const res = await fetch(`${baseUrl}/api/products?cat=${category}`, {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("Failed!");
   }

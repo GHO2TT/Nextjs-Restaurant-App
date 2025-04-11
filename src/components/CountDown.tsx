@@ -35,7 +35,7 @@ const CountDown = () => {
   return (
     <span className="font-bold text-5xl text-yellow-300 text-center">
       {timeLeft.days}:{timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
-      <p className="text-xs">Client-only countdown</p>
+      {/* <p className="text-xs">Client-only countdown</p> */}
     </span>
   );
 };
