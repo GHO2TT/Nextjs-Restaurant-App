@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductType } from "@/Types/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions as cartActions } from "@/utils/store";
 import { toast } from "react-toastify";
@@ -13,8 +13,9 @@ const Price = ({ product }: { product: ProductType[number] }) => {
   const dispatch = useDispatch();
 
   const selectedTitle = product.options?.[selected]?.title ?? "";
-
-  const options = Array.isArray(product.options) ? product.options : [];
+  const options = useMemo(() => {
+    return Array.isArray(product.options) ? product.options : [];
+  }, [product.options]);
 
   useEffect(() => {
     setTotal(

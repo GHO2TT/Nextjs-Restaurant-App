@@ -47,9 +47,9 @@ const CartPage = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) {
     const value = e.target.value;
-    console.log(value);
+    // console.log(value);
 
-    setAddress((preValue: any) => ({ ...preValue, [identifier]: value }));
+    setAddress((preValue) => ({ ...preValue, [identifier]: value }));
   }
   console.log(address);
 

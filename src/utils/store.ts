@@ -1,5 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { CartState } from "@/Types/types";
+import { CartProduct, CartState } from "@/Types/types";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { combineReducers } from "redux";
@@ -12,7 +12,7 @@ const cartSlice = createSlice({
   name: "cartSlicer",
   initialState: INITIALSTATE,
   reducers: {
-    add(state, action: { payload: { product: any } }) {
+    add(state, action: { payload: { product: CartProduct } }) {
       const { id, quantity } = action.payload.product;
       // const cartProducts = state.products;
 
