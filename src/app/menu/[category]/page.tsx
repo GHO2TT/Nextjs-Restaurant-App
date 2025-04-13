@@ -4,10 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-// type Props = {
-//   params: { category: string };
-// };
-
 const getData = async (category: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -21,10 +17,6 @@ const getData = async (category: string) => {
 
   return res.json();
 };
-
-// { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
-// ) {
-//   const id = (await params).id; // Await the promise to get the id
 
 const CategoryPage = async ({
   params,

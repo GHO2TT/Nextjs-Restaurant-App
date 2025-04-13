@@ -19,9 +19,21 @@ const getData = async (id: string) => {
   return res.json();
 };
 
-const SingleProductPage = async ({ params }: { params: { id: string } }) => {
-  const singleProduct: ProductType[number] = await getData(params.id);
-  // console.log(singleProduct.id);
+// const CategoryPage = async ({
+//   params,
+// }: {
+//   params: Promise<{ category: string }>;
+// }) => {
+//   const category = (await params).category;
+//   const products: ProductType = await getData(category);
+
+const SingleProductPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const id = (await params).id;
+  const singleProduct: ProductType[number] = await getData(id);
 
   return (
     <div className="p-4 lg:px-20 xl:px-40 h-screen flex flex-col justify-around text-red-500 md:flex-row md:gap-8 md:items-center relative">
