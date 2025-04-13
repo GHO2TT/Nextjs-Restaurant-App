@@ -2,54 +2,75 @@ import { getAuthSession } from "@/auth";
 import { prisma } from "@/utils/connect";
 import { NextRequest, NextResponse } from "next/server";
 
-// GET Single Product
-export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
+// Type for order status update body
+interface OrderStatusUpdate {
+  status: string;
+}
+
+// Type for route parameters
+interface OrderRouteParams {
+  id: string;
+}
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: OrderRouteParams }
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   try {
-    const product = await prisma.product.findUnique({
+    const body: OrderStatusUpdate = await req.json();
+
+    if (!body.status) {
+      return NextResponse.json(
+        { message: "Status is required" },
+        { status: 400 }
+      );
+    }
+
+    const updatedOrder = await prisma.order.update({
       where: { id },
+      data: { status: body.status },
     });
-    return NextResponse.json(product, { status: 200 });
+
+    return NextResponse.json(updatedOrder, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error("PUT /api/orders error:", error);
     return NextResponse.json(
-      { message: "Something went wrong! || Not found!!" },
+      { message: "Failed to update order status" },
       { status: 500 }
     );
   }
 }
 
-// DELETE Product
 export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: OrderRouteParams }
 ) {
-  const { id } = context.params;
+  const { id } = params;
   const session = await getAuthSession();
 
   if (!session?.user.isAdmin) {
     return NextResponse.json(
-      { message: "Permission not Granted" },
+      { message: "Unauthorized: Admin access required" },
       { status: 403 }
     );
   }
 
   try {
-    await prisma.product.delete({ where: { id } });
-    return NextResponse.json("Product Has Been Deleted!", { status: 200 });
-  } catch (error) {
+    await prisma.order.delete({ where: { id } });
     return NextResponse.json(
-      { message: `Something went wrong! || ${error}` },
+      { message: "Order deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("DELETE /api/orders error:", error);
+    return NextResponse.json(
+      {
+        message: "Failed to delete order",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
-}
-
-// POST - Example
-export async function POST() {
-  return new NextResponse("Hello", { status: 200 });
 }

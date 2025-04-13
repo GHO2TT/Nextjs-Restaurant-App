@@ -6,9 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 // FETCH single Product
 export const GET = async (
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) => {
-  const { id } = context.params;
+  const { id } = params;
+
   try {
     const product = await prisma.product.findUnique({
       where: {
@@ -28,9 +29,9 @@ export const GET = async (
 // Delete
 export const DELETE = async (
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) => {
-  const { id } = context.params;
+  const { id } = params;
 
   const session = await getAuthSession();
 
