@@ -3,12 +3,18 @@ import { ProductType } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Metadata } from "next";
 
 type Props = {
   params: { category: string };
-  searchParams?: { [key: string]: string | string[] | undefined }; // Add this line
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `${params.category} Menu`,
+  };
+}
 const getData = async (category: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -23,7 +29,7 @@ const getData = async (category: string) => {
   return res.json();
 };
 
-const CategoryPage = async ({ params }: Props) => {
+const CategoryPage = async ({ params }: { params: { category: string } }) => {
   const products: ProductType = await getData(params.category);
 
   return (
