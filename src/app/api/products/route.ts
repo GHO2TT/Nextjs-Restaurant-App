@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const cat = searchParams.get("cat");
+  console.log("Fetching products. Query category:", cat);
+
   try {
     const products = await prisma.product.findMany({
       where: {
@@ -14,8 +16,12 @@ export const GET = async (req: NextRequest) => {
         // catSlug: cat as string,
       },
     });
+    console.log("Fetching products. Query category:", cat);
+    console.log("Fetched products:", products);
     return new NextResponse(JSON.stringify(products), { status: 200 });
   } catch (error) {
+    console.error("PRODUCT FETCH ERROR:", error);
+
     console.log(error);
     return new NextResponse(
       JSON.stringify({ message: "Something went wrong!" }),
