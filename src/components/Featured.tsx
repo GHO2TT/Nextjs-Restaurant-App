@@ -5,30 +5,18 @@ import Link from "next/link";
 import React from "react";
 
 const getData = async () => {
-  try {
-    // Use relative path in production
-    const url =
-      process.env.NODE_ENV === "production"
-        ? "/api/products"
-        : "http://localhost:3000/api/products";
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "http://localhost:3000"; // Fallback for local
 
-    const res = await fetch(url, {
-      next: { tags: ["products"] }, // For caching
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to fetch products");
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error("Fetch error:", error);
-    throw error;
+  const res = await fetch(`${baseUrl}/api/products`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed!");
   }
+
+  return res.json();
 };
 
 const Featured = async () => {
