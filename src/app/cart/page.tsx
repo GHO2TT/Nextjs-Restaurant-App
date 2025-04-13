@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as cartActions, RootState } from "@/utils/store";
-import { CartProduct } from "@/Types/types";
+import { CartProduct } from "@/types/types";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

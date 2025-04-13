@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductType } from "@/Types/types";
+import { ProductType } from "@/types/types";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions as cartActions } from "@/utils/store";
