@@ -2,16 +2,11 @@ import { getAuthSession } from "@/auth";
 import { prisma } from "@/utils/connect";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Params {
-  id: string;
-}
-
-interface Context {
-  params: Params;
-}
-
-export async function PUT(req: NextRequest, context: Context) {
-  const { id } = context.params;
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
 
   try {
     const body = await req.json();
@@ -31,8 +26,11 @@ export async function PUT(req: NextRequest, context: Context) {
   }
 }
 
-export async function DELETE(req: NextRequest, context: Context) {
-  const { id } = context.params;
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
 
   const session = await getAuthSession();
 
