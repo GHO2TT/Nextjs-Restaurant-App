@@ -1,12 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/utils/connect";
 import { getAuthSession } from "@/auth";
+import { prisma } from "@/utils/connect";
+import { NextRequest, NextResponse } from "next/server";
 
+// ✅ Correctly typed PUT handler
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } } // Matches Next.js dynamic route type
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   try {
     const body = await req.json();
@@ -24,11 +25,12 @@ export async function PUT(
   }
 }
 
+// ✅ Correctly typed DELETE handler
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
   const session = await getAuthSession();
 
   if (!session?.user.isAdmin) {
