@@ -5,11 +5,19 @@ import Link from "next/link";
 import React from "react";
 
 const getData = async () => {
-  const res = await fetch("/api/products", {
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL?.startsWith("http")
+    ? process.env.NEXT_PUBLIC_VERCEL_URL
+    : `https://${
+        process.env.NEXT_PUBLIC_VERCEL_URL || "your-domain.vercel.app"
+      }`;
+
+  const res = await fetch(`${baseUrl}/api/products`, {
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch products");
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
 
   return res.json();
 };
