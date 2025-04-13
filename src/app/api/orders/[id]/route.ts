@@ -2,12 +2,11 @@ import { getAuthSession } from "@/auth";
 import { prisma } from "@/utils/connect";
 import { NextRequest, NextResponse } from "next/server";
 
-// ✅ Correctly typed PUT handler
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } } // Matches Next.js dynamic route type
+  { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
 ) {
-  const { id } = params;
+  const id = (await params).id; // Await the promise to get the id
 
   try {
     const body = await req.json();
@@ -25,12 +24,11 @@ export async function PUT(
   }
 }
 
-// ✅ Correctly typed DELETE handler
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
 ) {
-  const { id } = params;
+  const id = (await params).id; // Await the promise to get the id
   const session = await getAuthSession();
 
   if (!session?.user.isAdmin) {

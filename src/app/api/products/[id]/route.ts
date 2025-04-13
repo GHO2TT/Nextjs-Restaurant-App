@@ -6,9 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 // FETCH single Product
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { [id: string]: string } }
+  { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
 ) => {
-  const { id } = params;
+  const id = (await params).id; // Await the promise to get the id
 
   try {
     const product = await prisma.product.findUnique({
@@ -29,9 +29,9 @@ export const GET = async (
 // Delete
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { [id: string]: string } }
+  { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
 ) => {
-  const { id } = params;
+  const id = (await params).id; // Await the promise to get the id
 
   const session = await getAuthSession();
 
