@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { newStripe as stripe } from "@/utils/stripe";
-import { CartProduct } from "@/types/types";
+
+type CartProduct = {
+  id: string;
+  title: string;
+  price: number;
+  img?: string;
+  selectedTitle: string;
+  quantity: number;
+  // userEmail: string;
+  // Add more fields as needed
+};
 
 export async function POST(req: NextRequest) {
   try {
