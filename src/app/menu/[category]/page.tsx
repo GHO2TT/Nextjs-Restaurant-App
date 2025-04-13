@@ -1,5 +1,5 @@
 // import { pizzas } from "@/data";
-import { ProductType } from "@/types/types";
+import { ProductType } from "@/Types/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

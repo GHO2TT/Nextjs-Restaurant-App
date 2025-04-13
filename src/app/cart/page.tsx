@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as cartActions, RootState } from "@/utils/store";
-import { CartProduct } from "@/types/types";
+
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,17 @@ type Address = {
   home: string;
   cityandstate: string;
   phonenumber: number;
+};
+
+export type CartProduct = {
+  id: string;
+  title: string;
+  price: number;
+  img?: string;
+  selectedTitle: string;
+  quantity: number;
+  // userEmail: string;
+  // Add more fields as needed
 };
 
 const CartPage = () => {

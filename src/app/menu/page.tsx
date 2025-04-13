@@ -1,5 +1,5 @@
 // import { menu } from "@/data";
-import { MenuType } from "@/types/types";
+import { MenuType } from "@/Types/types";
 
 import Link from "next/link";
 import React from "react";

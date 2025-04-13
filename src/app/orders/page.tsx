@@ -1,6 +1,6 @@
 "use client";
 
-import { OrderType } from "@/types/types";
+import { OrderType } from "@/Types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
