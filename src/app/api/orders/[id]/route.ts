@@ -2,14 +2,15 @@ import { getAuthSession } from "@/auth";
 import { prisma } from "@/utils/connect";
 import { NextRequest, NextResponse } from "next/server";
 
-export const PUT = async (
+export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   const { id } = params;
 
   try {
     const body = await req.json();
+
     const updatedOrder = await prisma.order.update({
       where: { id },
       data: { status: body.status },
@@ -17,36 +18,36 @@ export const PUT = async (
 
     return NextResponse.json(updatedOrder, { status: 200 });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 }
     );
   }
-};
+}
 
-export const DELETE = async ({ params }: { params: { id: string } }) => {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const { id } = params;
 
   const session = await getAuthSession();
 
-  if (session?.user.isAdmin) {
-    try {
-      await prisma.order.delete({
-        where: { id },
-      });
-
-      return NextResponse.json("Order Has Been Deleted!", { status: 200 });
-    } catch (error) {
-      return NextResponse.json(
-        { message: `Something went wrong! || ${error}` },
-        { status: 500 }
-      );
-    }
-  } else {
+  if (!session?.user.isAdmin) {
     return NextResponse.json(
       { message: "Permission not Granted" },
       { status: 403 }
     );
   }
-};
+
+  try {
+    await prisma.order.delete({ where: { id } });
+    return NextResponse.json("Order Has Been Deleted!", { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: `Something went wrong || ${error}` },
+      { status: 500 }
+    );
+  }
+}
