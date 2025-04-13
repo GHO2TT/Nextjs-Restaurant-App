@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { [id: string]: string } }
 ) {
   const { id } = params;
 
@@ -28,7 +28,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { [id: string]: string } }
 ) {
   const { id } = params;
 

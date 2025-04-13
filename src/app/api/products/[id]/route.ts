@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 // FETCH single Product
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { [id: string]: string } }
 ) => {
   const { id } = params;
 
@@ -29,7 +29,7 @@ export const GET = async (
 // Delete
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { [id: string]: string } }
 ) => {
   const { id } = params;
 
