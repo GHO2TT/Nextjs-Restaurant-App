@@ -3,14 +3,9 @@ import { ProductType } from "@/Types/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-const getData = async () => {
-  const isServer = typeof window === "undefined";
-  const baseUrl =
-    isServer && process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "";
 
-  const res = await fetch(`${baseUrl}/api/products`, {
+const getData = async () => {
+  const res = await fetch("/api/products", {
     cache: "no-store",
   });
 
