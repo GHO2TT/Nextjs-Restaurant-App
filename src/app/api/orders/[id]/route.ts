@@ -1,21 +1,19 @@
-import { getAuthSession } from "@/auth";
-import { prisma } from "@/utils/connect";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/utils/connect";
+import { getAuthSession } from "@/auth";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { [id: string]: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = context.params;
 
   try {
     const body = await req.json();
-
     const updatedOrder = await prisma.order.update({
       where: { id },
       data: { status: body.status },
     });
-
     return NextResponse.json(updatedOrder, { status: 200 });
   } catch (error) {
     console.error(error);
@@ -28,10 +26,9 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { [id: string]: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
-
+  const { id } = context.params;
   const session = await getAuthSession();
 
   if (!session?.user.isAdmin) {
