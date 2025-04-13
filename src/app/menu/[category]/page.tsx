@@ -6,6 +6,7 @@ import React from "react";
 
 type Props = {
   params: { category: string };
+  searchParams?: { [key: string]: string | string[] | undefined }; // Add this line
 };
 
 const getData = async (category: string) => {
