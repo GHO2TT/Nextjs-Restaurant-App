@@ -1,0 +1,14 @@
+{
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_DEBUG_MODE": "true"
+    }
+  },
+  "routes": [
+    {
+      "src": "/_error",
+      "dest": "/500.html",
+      "status": 500
+    }
+  ]
+}
