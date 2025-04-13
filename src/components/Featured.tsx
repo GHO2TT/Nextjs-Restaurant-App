@@ -3,18 +3,18 @@ import { ProductType } from "@/Types/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 const getData = async () => {
-  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : "http://localhost:3000"; // Fallback for local
+  const isServer = typeof window === "undefined";
+  const baseUrl =
+    isServer && process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "";
 
   const res = await fetch(`${baseUrl}/api/products`, {
     cache: "no-store",
   });
-  if (!res.ok) {
-    throw new Error("Failed!");
-  }
+
+  if (!res.ok) throw new Error("Failed to fetch products");
 
   return res.json();
 };
