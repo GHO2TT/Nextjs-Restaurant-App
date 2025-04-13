@@ -3,18 +3,11 @@ import { ProductType } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Metadata } from "next";
 
-type Props = {
-  params: { category: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
+// type Props = {
+//   params: { category: string };
+// };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return {
-    title: `${params.category} Menu`,
-  };
-}
 const getData = async (category: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -29,8 +22,17 @@ const getData = async (category: string) => {
   return res.json();
 };
 
-const CategoryPage = async ({ params }: { params: { category: string } }) => {
-  const products: ProductType = await getData(params.category);
+// { params }: { params: Promise<{ id: string }> } // Matches Next.js dynamic route type
+// ) {
+//   const id = (await params).id; // Await the promise to get the id
+
+const CategoryPage = async ({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) => {
+  const category = (await params).category;
+  const products: ProductType = await getData(category);
 
   return (
     <div className="flex flex-wrap text-red-500">

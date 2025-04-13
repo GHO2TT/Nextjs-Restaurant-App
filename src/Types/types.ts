@@ -63,7 +63,7 @@ export type CartProduct = {
   img?: string;
   selectedTitle: string;
   quantity: number;
-  userEmail: string;
+  // userEmail: string;
   // Add more fields as needed
 };
 export type CartState = {
